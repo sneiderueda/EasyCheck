@@ -13,7 +13,7 @@ public class terceros {
     
   private int id_tercero;
   private int tercero_numeroDocumento;
-  private String tercero_nombre;;
+  private String tercero_nombre;
   private String tercero_apellido;
   private int tercero_celular;
   private String tercero_direccion;
