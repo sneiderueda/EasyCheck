@@ -4,16 +4,52 @@
 package controlador;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import modelo.usuarios;
+import modelo.usuariosMain;
 
 
 public class usuariosDAO {
-    
-    public usuarios consultarUsuarios  (int identificacion){
+
+    public String usuarioAgregar(usuarios miUsuario) {
+        conection miConexion = new conection();
+        Connection conn;
+        conn = miConexion.getConnection();
+        
+        String  miRespuesta;
+                
+        PreparedStatement sentencia;
+        
+        try{
+            String query = " INSERT INTO usuarios (usuario_apellido,usuario_nombre,usuario_documento,usuario_celular,usuario_direccion,usuario_contrasena) "
+                    + " VALUES (?,?,?,?,?,?);";
+            
+            //quitar valores por defecto en la base de datos a perfil y tipodoc
+            
+            sentencia = conn.prepareStatement(query);
+            sentencia.setString(1,miUsuario.getUsuario_apellido());
+            sentencia.setString(2,miUsuario.getUsuario_nombre());
+            sentencia.setInt(3,miUsuario.getUsuario_documento());
+            sentencia.setInt(4,miUsuario.getUsuario_celular());
+            sentencia.setString(5,miUsuario.getUsuario_direccion());
+            sentencia.setString(6,miUsuario.getUsuario_contrasena());
+            sentencia.execute();
+            
+            miRespuesta  = "";
+            
+        }catch (Exception e){
+            miRespuesta = e.getMessage();
+            System.out.println("Ocurrio un error en usuarioDAO " + e.getMessage());
+        }
+        
+        return miRespuesta;
+    }
+        
+    public usuarios consultarUsuarios (int identificacion){
         
         usuarios miUsuario = null;
         
@@ -23,6 +59,8 @@ public class usuariosDAO {
         
         try {
             Statement sentencia = conn.createStatement();
+            
+            //String querySQL = " CALL SP_usuarios ('1','','','','"+identificacion+"','','','','','','');";
             String querySQL = " SELECT id_usuario,usuario_apellido,usuario_nombre,usuario_documento,usuario_celular,usuario_direccion,usuario_contrasena,usuario_estado,perfil_id_perfil,terceroDocumento_id_terceroDocumento FROM usuarios WHERE usuario_documento = "+ identificacion + ";";
             
             ResultSet rs = sentencia.executeQuery(querySQL);
@@ -47,7 +85,5 @@ public class usuariosDAO {
             System.out.println(ex.getMessage());
         }
         return miUsuario;
-        
     }
-    
 }

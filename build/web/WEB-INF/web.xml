@@ -8,6 +8,16 @@
         <servlet-name>iniciarSesion</servlet-name>
         <url-pattern>/iniciar</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>registrarUsuario</servlet-name>
+        <servlet-class>servlets.registrarUsuario</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>registrarUsuario</servlet-name>
+        <url-pattern>/registrarUsuario</url-pattern>
+    </servlet-mapping>
+    
     <session-config>
         <session-timeout>
             30
